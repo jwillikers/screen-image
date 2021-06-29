@@ -81,7 +81,7 @@ jobs:
       - name: Load the image
         run: podman image load -i screen-${{ matrix.arch }}.tar
 
-      - name: Create a container and start the OpenSSH server using the image
+      - name: Test the container
         run: ./test.sh
 
   publish:
