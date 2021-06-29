@@ -1,0 +1,155 @@
+= Screen Image
+Jordan Williams <jordan@jwillikers.com>
+:experimental:
+:icons: font
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+:Buildah: https://buildah.io/[Buildah]
+:Fedora: https://getfedora.org/[Fedora]
+:Fedora-Silverblue: https://silverblue.fedoraproject.org/[Fedora Silverblue]
+:Git: https://git-scm.com/[Git]
+:OpenSSH: https://www.openssh.com/[OpenSSH]
+:pre-commit: https://pre-commit.com/[pre-commit]
+:Screen: https://www.gnu.org/software/screen/[Screen]
+:sh: https://pkg.go.dev/mvdan.cc/sh/v3[sh]
+:ShellCheck: https://www.shellcheck.net/[ShellCheck]
+:Podman: https://podman.io/[Podman]
+
+image:https://img.shields.io/github/workflow/status/jwillikers/screen-image/CI/main[GitHub Workflow Status]
+
+A container image for running {Screen}, a full-screen window manager that multiplexes a physical terminal between several processes.
+I mostly use it for connecting to a serial console.
+
+== Synopsis
+
+.Supported architectures
+* amd64 _x86_64_
+* arm _armhfp_
+* arm64 _aarch64_
+
+== Quick Start
+
+To connect to a serial console using Screen from within this container, use the following {Podman} command.
+Here, Screen connects to the serial console device `/dev/ttyACM0` with a Baud rate of 115,200 bps.
+
+[source,sh]
+----
+➜ podman run \
+    --rm \
+    --group-add keep-groups \
+    --security-opt label=disable \
+    --device=/dev/ttyACM0 \
+    --name screen \
+    -it quay.io/jwillikers/screen:latest \
+    screen /dev/ttyACM0 115200
+----
+
+== Build
+
+This project uses {Buildah} and {Podman} for building and testing the image.
+To ensure the shell scripts are kept in good working order, the project uses {ShellCheck} and {sh}.
+A set of {pre-commit} checks are readily available to ensure your code is up-to-spec at the time it is committed.
+Both ShellCheck and sh are run via Podman using their official Docker containers as pre-commit hooks.
+Cool, right?
+Instructions for setting up a development environment, building the image, and testing the image follow.
+These instructions are intended for users of {Fedora-Silverblue}, where the packages `buildah`, `git`, and `podman` are already available.
+
+. Clone this repository.
++
+[source,sh]
+----
+➜ git -C ~/Projects clone git@github.com:jwillikers/screen-image.git
+----
+
+. Create a fresh Python virtual environment.
++
+[source,sh]
+----
+➜ python -m venv ~/Projects/screen-image/venv
+----
+
+. Activate the virtual environment.
++
+[source,sh]
+----
+➜ source ~/Projects/screen-image/venv/bin/activate.fish
+----
+
+. Install the development dependencies.
++
+[source,sh]
+----
+➜ pip install -r ~/Projects/screen-image/requirements-dev.txt
+----
+
+. Change into the project directory.
++
+[source,sh]
+----
+➜ cd ~/Projects/screen-image
+----
+
+. Install pre-commit's Git hooks
++
+[source,sh]
+----
+➜ pre-commit install
+----
+
+. Run the shell script to build the image.
++
+[source,sh]
+----
+➜ buildah unshare ~/Projects/screen-image/build.sh
+----
+
+. Test the image with the `test.sh` shell script.
++
+[source,sh]
+----
+➜ ~/Projects/screen-image/test.sh
+----
+
+== Contributing
+
+Contributions in the form of issues, feedback, and even pull requests are welcome.
+Make sure to adhere to the project's link:CODE_OF_CONDUCT.adoc[Code of Conduct].
+
+== Open Source Software
+
+This project is built on the hard work of countless open source contributors.
+Several of these projects are enumerated below.
+
+* https://asciidoctor.org/[Asciidoctor]
+* {Buildah}
+* {Fedora}
+* {Fedora-Silverblue}
+* {Git}
+* https://www.linuxfoundation.org/[Linux]
+* {OpenSSH}
+* {Podman}
+* https://www.python.org/[Python]
+* https://rouge.jneen.net/[Rouge]
+* https://www.ruby-lang.org/en/[Ruby]
+* {Screen}
+* {sh}
+* {ShellCheck}
+
+== Code of Conduct
+
+The project's Code of Conduct is available in the link:CODE_OF_CONDUCT.adoc[Code of Conduct] file.
+
+== License
+
+This repository is licensed under the https://www.gnu.org/licenses/gpl-3.0.html[GPLv3], available in the link:LICENSE.adoc[license file].
+
+© 2021 Jordan Williams
+
+== Authors
+
+mailto:{email}[{author}]

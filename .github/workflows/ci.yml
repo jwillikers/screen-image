@@ -1,0 +1,130 @@
+---
+name: CI
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  schedule:
+    # Run at 06:10 on Sunday
+    - cron: "10 6 * * 0"
+
+jobs:
+  check:
+    name: Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v2
+      - name: Run the sh-checker
+        uses: luizm/action-sh-checker@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SHELLCHECK_OPTS: --color=always
+          SHFMT_OPTS: -s
+          _CONTAINERS_USERNS_CONFIGURED: ""
+        with:
+          sh_checker_comment: true
+
+  build:
+    name: Build
+    needs: check
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        arch:
+          - amd64
+          - arm64
+          - arm
+    steps:
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+
+      - name: Check out the repository
+        uses: actions/checkout@v2
+
+      - name: Build the image with Buildah
+        run: buildah unshare ./build.sh -a ${{ matrix.arch }}
+
+      - name: Tag the image for Fedora 34
+        run: podman tag localhost/screen localhost/screen:34
+
+      - name: Export the image
+        run: podman image save --format oci-archive -o screen-${{ matrix.arch }}.tar localhost/screen
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: screen-${{ matrix.arch }}
+          path: screen-${{ matrix.arch }}.tar
+
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    needs: build
+    strategy:
+      matrix:
+        arch:
+          - amd64
+          - arm64
+          - arm
+    steps:
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+
+      - name: Check out the repository
+        uses: actions/checkout@v2
+
+      - uses: actions/download-artifact@v2
+        with:
+          name: screen-${{ matrix.arch }}
+
+      - name: Load the image
+        run: podman image load -i screen-${{ matrix.arch }}.tar
+
+      - name: Create a container and start the OpenSSH server using the image
+        run: ./test.sh
+
+  publish:
+    name: Publish
+    runs-on: ubuntu-latest
+    needs: test
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Create a manifest
+        run: buildah manifest create screen-multiarch:latest
+
+      # armhfp
+      - uses: actions/download-artifact@v2
+        with:
+          name: screen-arm
+
+      - name: Load the armhfp image
+        run: podman image load -i screen-arm.tar
+
+      - name: Add the armhfp image to the manifest
+        run: buildah manifest add screen-multiarch:latest localhost/screen
+
+      # aarch64
+      - uses: actions/download-artifact@v2
+        with:
+          name: screen-arm64
+
+      - name: Load the aarch64 image
+        run: podman image load -i screen-arm64.tar
+
+      - name: Add the aarch64 image to the manifest
+        run: buildah manifest add screen-multiarch:latest localhost/screen
+
+      # x86_64
+      - uses: actions/download-artifact@v2
+        with:
+          name: screen-amd64
+
+      - name: Load the x86_64 image
+        run: podman image load -i screen-amd64.tar
+
+      - name: Add the x86_64 image to the manifest
+        run: buildah manifest add screen-multiarch:latest localhost/screen
+
+      - name: Push latest manifest and images to quay.io
+        run: buildah manifest push --rm --all --creds jwillikers+publisher:${{ secrets.REGISTRY_PASSWORD }} screen-multiarch:latest docker://quay.io/jwillikers/screen
