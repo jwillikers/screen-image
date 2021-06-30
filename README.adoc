@@ -52,11 +52,11 @@ podman run \
     --rm \
     --group-add keep-groups \
     --security-opt label=disable \
-    --device=/dev/ttyACM0 \
+    --device=/dev/ttyUSB0 \
     --name screen \
     --init \
     -it quay.io/jwillikers/screen:latest \
-    /dev/ttyACM0 115200
+    /dev/ttyUSB0 115200
 ----
 
 NOTE: Using the `--init` option prevents the terminal hanging after terminating the screen session.
