@@ -28,10 +28,17 @@ podman run --arch $architecture --volume $mountpoint:/mnt:Z registry.fedoraproje
     bash -c "dnf clean all -y --installroot /mnt --releasever 34"
 or exit
 
+podman run --arch $architecture --volume $mountpoint:/mnt:Z registry.fedoraproject.org/fedora:latest \
+    bash -c "useradd --root /mnt user"
+or exit
+
 buildah unmount $container
 or exit
 
-buildah config --cmd screen $container
+buildah config --user user $container
+or exit
+
+buildah config --entrypoint '["screen"]' $container
 or exit
 
 buildah config --label io.containers.autoupdate=registry $container

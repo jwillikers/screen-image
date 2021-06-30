@@ -45,9 +45,15 @@ podman run \
     --security-opt label=disable \
     --device=/dev/ttyACM0 \
     --name screen \
+    --init \
     -it quay.io/jwillikers/screen:latest \
-    screen /dev/ttyACM0 115200
+    /dev/ttyACM0 115200
 ----
+
+[NOTE]
+====
+Using the `--init` option prevents the terminal hanging after terminating the screen session.
+====
 
 == Build
 
