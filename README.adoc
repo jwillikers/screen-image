@@ -59,10 +59,7 @@ podman run \
     /dev/ttyACM0 115200
 ----
 
-[NOTE]
-====
-Using the `--init` option prevents the terminal hanging after terminating the screen session.
-====
+NOTE: Using the `--init` option prevents the terminal hanging after terminating the screen session.
 
 == Build
 
