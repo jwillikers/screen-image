@@ -89,25 +89,11 @@ systemctl reboot
 git -C ~/Projects clone git@github.com:jwillikers/screen-image.git
 ----
 
-. Create a fresh Python virtual environment.
+. Install pre-commit.
 +
 [source,sh]
 ----
-python -m venv ~/Projects/screen-image/venv
-----
-
-. Activate the virtual environment.
-+
-[source,sh]
-----
-source ~/Projects/screen-image/venv/bin/activate.fish
-----
-
-. Install the development dependencies.
-+
-[source,sh]
-----
-pip install -r ~/Projects/screen-image/requirements-dev.txt
+pip install pre-commit
 ----
 
 . Change into the project directory.
