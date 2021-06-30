@@ -17,8 +17,6 @@ endif::[]
 :OpenSSH: https://www.openssh.com/[OpenSSH]
 :pre-commit: https://pre-commit.com/[pre-commit]
 :Screen: https://www.gnu.org/software/screen/[Screen]
-:sh: https://pkg.go.dev/mvdan.cc/sh/v3[sh]
-:ShellCheck: https://www.shellcheck.net/[ShellCheck]
 :Podman: https://podman.io/[Podman]
 
 image:https://img.shields.io/github/workflow/status/jwillikers/screen-image/CI/main[GitHub Workflow Status]
@@ -54,10 +52,7 @@ podman run \
 == Build
 
 This project uses {Buildah} and {Podman} for building and testing the image.
-To ensure the shell scripts are kept in good working order, the project uses {ShellCheck} and {sh}.
 A set of {pre-commit} checks are readily available to ensure your code is up-to-spec at the time it is committed.
-Both ShellCheck and sh are run via Podman using their official Docker containers as pre-commit hooks.
-Cool, right?
 Instructions for setting up a development environment, building the image, and testing the image follow.
 These instructions are intended for users of {Fedora-Silverblue}, where the packages `buildah`, `git`, and `podman` are already available.
 
@@ -154,8 +149,6 @@ Several of these projects are enumerated below.
 * https://rouge.jneen.net/[Rouge]
 * https://www.ruby-lang.org/en/[Ruby]
 * {Screen}
-* {sh}
-* {ShellCheck}
 
 == Code of Conduct
 
