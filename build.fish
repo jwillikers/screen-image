@@ -20,15 +20,15 @@ set -l container (buildah from --arch $architecture scratch)
 set -l image screen
 set -l mountpoint (buildah mount $container)
 
-podman run --arch $architecture --volume $mountpoint:/mnt:Z registry.fedoraproject.org/fedora:latest \
+podman run --rm --arch $architecture --volume $mountpoint:/mnt:Z registry.fedoraproject.org/fedora:latest \
     bash -c "dnf -y install --installroot /mnt --releasever 34 glibc-minimal-langpack screen --nodocs --setopt install_weak_deps=False"
 or exit
 
-podman run --arch $architecture --volume $mountpoint:/mnt:Z registry.fedoraproject.org/fedora:latest \
+podman run --rm --arch $architecture --volume $mountpoint:/mnt:Z registry.fedoraproject.org/fedora:latest \
     bash -c "dnf clean all -y --installroot /mnt --releasever 34"
 or exit
 
-podman run --arch $architecture --volume $mountpoint:/mnt:Z registry.fedoraproject.org/fedora:latest \
+podman run --rm --arch $architecture --volume $mountpoint:/mnt:Z registry.fedoraproject.org/fedora:latest \
     bash -c "useradd --root /mnt user"
 or exit
 
