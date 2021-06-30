@@ -23,6 +23,8 @@
         "mvdan",
         "openfortivpn",
         "ostree",
+        "overlayfs",
+        "printf",
         "repos",
         "screen",
         "seccomp",
