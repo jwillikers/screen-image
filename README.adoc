@@ -41,7 +41,7 @@ Here, Screen connects to the serial console device `/dev/ttyACM0` with a Baud ra
 
 [source,sh]
 ----
-➜ podman run \
+podman run \
     --rm \
     --group-add keep-groups \
     --security-opt label=disable \
@@ -65,63 +65,70 @@ These instructions are intended for users of {Fedora-Silverblue}, where the pack
 +
 [source,sh]
 ----
-➜ sudo rpm-ostree install fish
+sudo rpm-ostree install fish
+----
+
+. Reboot to finish the installation.
++
+[source,sh]
+----
+systemctl reboot
 ----
 
 . Clone this repository.
 +
 [source,sh]
 ----
-➜ git -C ~/Projects clone git@github.com:jwillikers/screen-image.git
+git -C ~/Projects clone git@github.com:jwillikers/screen-image.git
 ----
 
 . Create a fresh Python virtual environment.
 +
 [source,sh]
 ----
-➜ python -m venv ~/Projects/screen-image/venv
+python -m venv ~/Projects/screen-image/venv
 ----
 
 . Activate the virtual environment.
 +
 [source,sh]
 ----
-➜ source ~/Projects/screen-image/venv/bin/activate.fish
+source ~/Projects/screen-image/venv/bin/activate.fish
 ----
 
 . Install the development dependencies.
 +
 [source,sh]
 ----
-➜ pip install -r ~/Projects/screen-image/requirements-dev.txt
+pip install -r ~/Projects/screen-image/requirements-dev.txt
 ----
 
 . Change into the project directory.
 +
 [source,sh]
 ----
-➜ cd ~/Projects/screen-image
+cd ~/Projects/screen-image
 ----
 
 . Install pre-commit's Git hooks
 +
 [source,sh]
 ----
-➜ pre-commit install
+pre-commit install
 ----
 
 . Run the shell script to build the image.
 +
 [source,sh]
 ----
-➜ buildah unshare fish ~/Projects/screen-image/build.fish
+buildah unshare fish ~/Projects/screen-image/build.fish
 ----
 
 . Test the image with the `test.fish` shell script.
 +
 [source,sh]
 ----
-➜ fish ~/Projects/screen-image/test.fish
+fish ~/Projects/screen-image/test.fish
 ----
 
 == Contributing
