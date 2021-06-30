@@ -10,6 +10,7 @@
         "cmake",
         "commit's",
         "creds",
+        "dialout",
         "ide",
         "ide's",
         "ifdef",
@@ -31,6 +32,7 @@
         "subgid",
         "subuid",
         "toolchain",
+        "usermod",
         "userns",
         "venv",
         "workdir"
