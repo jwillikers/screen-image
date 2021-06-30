@@ -12,6 +12,7 @@ endif::[]
 :Buildah: https://buildah.io/[Buildah]
 :Fedora: https://getfedora.org/[Fedora]
 :Fedora-Silverblue: https://silverblue.fedoraproject.org/[Fedora Silverblue]
+:fish: https://fishshell.com/[fish]
 :Git: https://git-scm.com/[Git]
 :OpenSSH: https://www.openssh.com/[OpenSSH]
 :pre-commit: https://pre-commit.com/[pre-commit]
@@ -22,7 +23,6 @@ endif::[]
 
 image:https://img.shields.io/github/workflow/status/jwillikers/screen-image/CI/main[GitHub Workflow Status]
 image:https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white[pre-commit, link=https://github.com/pre-commit/pre-commit]
-
 
 A container image for running {Screen}, a full-screen window manager that multiplexes a physical terminal between several processes.
 I mostly use it for connecting to a serial console.
@@ -60,6 +60,13 @@ Both ShellCheck and sh are run via Podman using their official Docker containers
 Cool, right?
 Instructions for setting up a development environment, building the image, and testing the image follow.
 These instructions are intended for users of {Fedora-Silverblue}, where the packages `buildah`, `git`, and `podman` are already available.
+
+. Install the {fish} shell.
++
+[source,sh]
+----
+➜ sudo rpm-ostree install fish
+----
 
 . Clone this repository.
 +
@@ -107,14 +114,14 @@ These instructions are intended for users of {Fedora-Silverblue}, where the pack
 +
 [source,sh]
 ----
-➜ buildah unshare ~/Projects/screen-image/build.sh
+➜ buildah unshare fish ~/Projects/screen-image/build.fish
 ----
 
-. Test the image with the `test.sh` shell script.
+. Test the image with the `test.fish` shell script.
 +
 [source,sh]
 ----
-➜ ~/Projects/screen-image/test.sh
+➜ fish ~/Projects/screen-image/test.fish
 ----
 
 == Contributing
@@ -131,6 +138,7 @@ Several of these projects are enumerated below.
 * {Buildah}
 * {Fedora}
 * {Fedora-Silverblue}
+* {fish}
 * {Git}
 * https://www.linuxfoundation.org/[Linux]
 * {OpenSSH}
