@@ -1,13 +1,14 @@
 #!/usr/bin/env fish
 
 set -l options (fish_opt --short a --long architecture --required-val)
+set -a options (fish_opt --short m --long manifest --required-val)
 set -a options (fish_opt --short h --long help)
 
 argparse --max-args 0 $options -- $argv
 or exit
 
 if set -q _flag_help
-    echo "build [-a|--architecture] [-h|--help]"
+    echo "build [-a|--architecture] [-h|--help] [-m|--manifest]"
     exit 0
 end
 
@@ -16,6 +17,11 @@ if set -q _flag_architecture
     set architecture $_flag_architecture
 end
 echo "The image will be built for the $architecture architecture."
+
+if set -q _flag_manifest
+    set -l manifest $_flag_manifest
+    echo "The image will be added to the $manifest manifest."
+end
 
 set -l container (buildah from --arch $architecture scratch)
 set -l image screen
@@ -48,5 +54,10 @@ or exit
 buildah config --author jordan@jwillikers.com $container
 or exit
 
-buildah commit --rm --squash $container $image
-or exit
+if set -q manifest
+    buildah commit --rm --squash --manifest $manifest $container $image
+    or exit
+else
+    buildah commit --rm --squash $container $image
+    or exit
+end
