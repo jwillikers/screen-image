@@ -93,7 +93,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Test the container
-        run: ./test.fish --architecture ${{ matrix.arch }}
+        run: ./test.fish
 
   publish:
     name: Publish
