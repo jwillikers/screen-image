@@ -30,7 +30,7 @@ jobs:
         run: |
           sudo apt-get install fuse-overlayfs
           mkdir -vp ~/.config/containers
-          printf "[storage.options]\nmount_program=\"/usr/bin/fuse-overlayfs\"" > ~/.config/containers/storage.conf
+          printf '[storage]\ndriver="overlay"\n\n[storage.options]\nmount_program="/usr/bin/fuse-overlayfs\n"' > ~/.config/containers/storage.conf
 
       - name: Check out the repository
         uses: actions/checkout@v2
