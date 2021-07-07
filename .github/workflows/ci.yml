@@ -38,9 +38,6 @@ jobs:
       - name: Build the image with Buildah
         run: buildah unshare ./build.fish --architecture ${{ matrix.arch }}
 
-      - name: Tag the image for Fedora 34
-        run: podman tag localhost/screen localhost/screen:34
-
       - name: Export the image
         run: podman image save --format oci-archive -o screen-${{ matrix.arch }}.tar localhost/screen
 
