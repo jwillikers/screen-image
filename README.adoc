@@ -44,7 +44,7 @@ sudo usermod -aG $USER dialout
 NOTE: You'll have to log out and back in for the changes to take effect.
 
 To connect to a serial console using Screen from within this container, use the following {Podman} command.
-Here, Screen connects to the serial console device `/dev/ttyACM0` with a Baud rate of 115,200 bps.
+Here, Screen connects to the serial console device `/dev/ttyUSB0` with a Baud rate of 115,200 bps.
 
 [source,sh]
 ----
@@ -52,7 +52,7 @@ podman run \
     --rm \
     --group-add keep-groups \
     --security-opt label=disable \
-    --device=/dev/ttyUSB0 \
+    --device /dev/ttyUSB0 \
     --name screen \
     --init \
     -it quay.io/jwillikers/screen:latest \
