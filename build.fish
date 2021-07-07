@@ -15,6 +15,7 @@ set -l architecture (buildah info --format={{".host.arch"}})
 if set -q _flag_architecture
     set architecture $_flag_architecture
 end
+echo "The image will be built for the architecture $architecture."
 
 set -l container (buildah from --arch $architecture scratch)
 set -l image screen
