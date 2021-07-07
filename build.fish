@@ -33,6 +33,9 @@ podman run --rm --arch $architecture --volume $mountpoint:/mnt:Z registry.fedora
     bash -c "useradd --root /mnt user"
 or exit
 
+buildah unmount $container
+or exit
+
 buildah config --user user $container
 or exit
 
@@ -46,7 +49,4 @@ buildah config --author jordan@jwillikers.com $container
 or exit
 
 buildah commit --rm --squash $container $image
-or exit
-
-buildah unmount $container
 or exit
