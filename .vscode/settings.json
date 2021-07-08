@@ -1,11 +1,13 @@
 {
     "cSpell.words": [
         "Buildah",
+        "Entrypoint",
         "Podman",
         "Silverblue",
         "aarch",
         "adoc",
         "armhfp",
+        "autoupdate",
         "btrfs",
         "cmake",
         "commit's",

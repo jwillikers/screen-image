@@ -38,7 +38,11 @@ Supported architectures::
 * `arm64` _(aarch64)_
 
 User:: The default user inside the container is named `user`.
-Working directory:: By default, the working directory is the default user's home directory: `/home/user`.
+
+Entrypoint:: `screen`
+
+Labels::
+`io.containers.autoupdate=registry`::: Enables automatic updates when using Podman and the _fully-qualified_ image name.
 
 == Quick Start
 

@@ -7,7 +7,7 @@ argparse --max-args 0 $options -- $argv
 or exit
 
 if set -q _flag_help
-    echo "build [-h|--help] [-n|--name]"
+    echo "test.fish [-h|--help] [-n|--name]"
     exit 0
 end
 

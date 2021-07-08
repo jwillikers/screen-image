@@ -9,7 +9,7 @@ argparse --max-args 0 $options -- $argv
 or exit
 
 if set -q _flag_help
-    echo "build [-a|--architecture] [-h|--help] [-m|--manifest] [-n|--name]"
+    echo "build.fish [-a|--architecture] [-h|--help] [-m|--manifest] [-n|--name]"
     exit 0
 end
 
