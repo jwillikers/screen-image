@@ -59,6 +59,9 @@ or exit
 buildah config --author jordan@jwillikers.com $container
 or exit
 
+buildah config --arch $architecture $container
+or exit
+
 if set -q manifest
     buildah commit --rm --squash --manifest $manifest $container $name
     or exit
